@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:store/screens/navbarComponents.dart';
+import 'package:store/screens/home_screen.dart';
 
 import 'core/app_constains.dart';
 
@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         fontFamily: AppConstain.appFontFamily,
       ),
-      home: Navbarcomponents(),
+      // home: Navbarcomponents(),
+      home: HomeScreen(),
     );
   }
 }

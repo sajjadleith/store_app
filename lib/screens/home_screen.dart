@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:store/screens/dummy_screen.dart';
 
 import '../core/widgets/category_slider.dart';
 import '../core/widgets/slider_widget.dart';
 import '../core/widgets/sliver_grid_widget.dart';
 import '../core/widgets/text_field_widget.dart';
 import 'custom_appbar.dart';
+import 'custom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,9 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
-  int currentIndex = 0;
-  List screens = [HomeScreen(), DummyScreen()];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +60,7 @@ class _HomeState extends State<HomeScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: CustomNavbar(),
     );
   }
 }
