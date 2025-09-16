@@ -5,7 +5,6 @@ import '../core/widgets/slider_widget.dart';
 import '../core/widgets/sliver_grid_widget.dart';
 import '../core/widgets/text_field_widget.dart';
 import 'custom_appbar.dart';
-import 'custom_navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -60,7 +59,6 @@ class _HomeState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomNavbar(),
     );
   }
 }
