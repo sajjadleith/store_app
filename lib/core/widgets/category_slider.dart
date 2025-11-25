@@ -26,7 +26,7 @@ class _CategorySliderState extends State<CategorySlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 40,
       child: ListView.separated(
