@@ -1,5 +1,6 @@
 class AppConstant {
-  static const baseUrl = "http://192.168.71.150:6969/api/";
+  static const baseUrl = "https://book-backend-65sn.onrender.com/api/";
   static const getAllProduct = "${baseUrl}Book/Get";
   static const loginUrl = "${baseUrl}Auth/Login";
+  static const registerUrl = "${baseUrl}Auth/Register";
 }

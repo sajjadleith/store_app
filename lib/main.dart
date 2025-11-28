@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/book_provider.dart';
 import 'package:store/controllers/login_provider.dart';
+import 'package:store/controllers/register_provider.dart';
 import 'package:store/screens/dummy_screen.dart';
 import 'package:store/screens/home_screen.dart';
-import 'package:store/screens/login_screen.dart';
+import 'package:store/screens/register_screen.dart';
 
 import 'controllers/details_provider.dart';
 import 'core/app_constains.dart';
@@ -38,8 +39,10 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => BookProvider()),
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => RegisterProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Store App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -53,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         //     onChange: onChange,
         //   ),
         // ),
-        home: LoginScreen(),
+        home: RegisterScreen(),
       ),
     );
   }

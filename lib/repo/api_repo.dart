@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:store/app_constant.dart';
 import 'package:store/model/book_model.dart';
 import 'package:store/model/login_model.dart';
+import 'package:store/model/register_model.dart';
 
 class ApiRepo {
   Future<List<BookModel>> getData() async {
@@ -52,6 +53,32 @@ class ApiRepo {
         return de['data']['token'];
       } else {
         print(response.statusCode);
+      }
+      return ":";
+    } catch (e) {
+      print("error $e");
+      throw e.toString();
+    }
+  }
+
+  Future<String> register(RegisterModel params) async {
+    try {
+      final url = Uri.parse(AppConstant.registerUrl);
+      final encodedData = jsonEncode({
+        "username": params.username,
+        "email": params.email,
+        "password": params.password,
+      });
+      final resonse = await http.post(
+        url,
+        body: encodedData,
+        headers: {"Content-Type": "application/json"},
+      );
+      if (resonse.statusCode == 200 || resonse.statusCode == 201) {
+        final dData = jsonDecode(resonse.body);
+        return dData["data"];
+      } else {
+        print(resonse.statusCode);
       }
       return ":";
     } catch (e) {
