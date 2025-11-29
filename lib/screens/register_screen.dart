@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:store/controllers/register_provider.dart';
 import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';
+import 'package:store/screens/login_screen.dart';
 import 'package:store/screens/widgets/custom_button.dart';
 import 'package:store/screens/widgets/custom_text_form_field.dart';
 
@@ -41,7 +42,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         backgroundColor: Colors.transparent,
                         radius: 44,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ),
+                            );
+                          },
                           borderRadius: BorderRadius.circular(44),
                           child: Container(
                             width: 60,
