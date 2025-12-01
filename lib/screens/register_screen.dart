@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/register_provider.dart';
 import 'package:store/core/enums/request_state.dart';
-import 'package:store/core/widgets/navigate_back_widget.dart';
-import 'package:store/screens/login_screen.dart';
 import 'package:store/screens/widgets/custom_button.dart';
 import 'package:store/screens/widgets/custom_text_form_field.dart';
 
@@ -35,10 +33,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    NavigateBackWidget(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-                      },
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        radius: 44,
+                        child: InkWell(
+                          onTap: () {},
+                          borderRadius: BorderRadius.circular(44),
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.black, width: 2),
+                            ),
+                            padding: EdgeInsets.all(8),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                AppIcons.backArrow,
+                                width: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     Text(
                       "Register",
