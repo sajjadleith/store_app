@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/register_provider.dart';
+import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';
 import 'package:store/screens/widgets/custom_button.dart';
 import 'package:store/screens/widgets/custom_text_form_field.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/details_provider.dart';
-import 'package:store/controllers/rating_provider.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';

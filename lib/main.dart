@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/book_provider.dart';
 import 'package:store/controllers/login_provider.dart';
-import 'package:store/controllers/rating_provider.dart';
 import 'package:store/controllers/register_provider.dart';
 import 'package:store/screens/custom_navbar.dart';
 import 'package:store/screens/dummy_screen.dart';
