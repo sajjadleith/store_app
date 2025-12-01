@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/details_provider.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';
 import 'package:store/core/widgets/navigate_back_widget.dart';
 import 'package:store/model/book_model.dart';
+import 'package:store/model/comment_model.dart';
 
 class BookDetails extends StatefulWidget {
   const BookDetails({
@@ -28,6 +30,7 @@ class _BookDetailsState extends State<BookDetails> {
   void initState() {
     super.initState();
     context.read<DetailsProvider>().fetchData(widget.id);
+    context.read<CommentProvider>().fetchData(widget.id);
   }
 
   @override
@@ -45,7 +48,10 @@ class _BookDetailsState extends State<BookDetails> {
                 case RequestState.success:
                   final BookModel data = detailsProvider.generalState.data;
                   return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 10,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,10 +65,7 @@ class _BookDetailsState extends State<BookDetails> {
                                 Navigator.pop(context);
                               },
                             ),
-                            SvgPicture.asset(
-                              AppIcons.account,
-                              width: 30,
-                            ),
+                            SvgPicture.asset(AppIcons.account, width: 30),
                           ],
                         ),
                         SizedBox(height: 20),
@@ -262,59 +265,88 @@ class _BookDetailsState extends State<BookDetails> {
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                              suffix: TextButton(onPressed: () {
-                                
-                              }, child: Text("Post", style: TextStyle(
-                                color: AppConstain.primaryColor,
-                                fontWeight: FontWeight.w600,
-                              ),)),
+                              suffix: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "Post",
+                                  style: TextStyle(
+                                    color: AppConstain.primaryColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(height: 20),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: double.infinity,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: Color(0xffFFE8E8),
-                                borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 22),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "User ${index + 1}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    "This is a sample comment for book id ${widget.id}.",
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[800],
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            );
+                        Consumer<CommentProvider>(
+                          builder: (context, commentProvider, child) {
+                            switch (commentProvider.generalState.requestState) {
+                              case RequestState.loading:
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+
+                              case RequestState.success:
+                                final List<CommentModel> comments =
+                                    commentProvider.generalState.data ?? [];
+
+                                if (comments.isEmpty) {
+                                  return Text(
+                                    "No comments yet",
+                                    style: TextStyle(color: Colors.grey),
+                                  );
+                                }
+
+                                return ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: comments.length,
+                                  separatorBuilder: (_, __) =>
+                                      SizedBox(height: 10),
+                                  itemBuilder: (context, index) {
+                                    final c = comments[index];
+
+                                    return Container(
+                                      padding: EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffFFE8E8),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "User: ${c.user.userName}",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            c.content,
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: Colors.grey[800],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                );
+
+                              case RequestState.error:
+                                return Text(
+                                  "Error: ${commentProvider.generalState.error}",
+                                );
+
+                              case RequestState.empty:
+                                return SizedBox();
+                            }
                           },
-                          separatorBuilder: (context, index) => Divider(),
-                          itemCount: 5,
                         ),
                       ],
                     ),

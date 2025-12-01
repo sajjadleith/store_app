@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/book_provider.dart';
+import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/login_provider.dart';
 import 'package:store/controllers/register_provider.dart';
 import 'package:store/screens/custom_navbar.dart';
@@ -41,6 +42,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => DetailsProvider()),
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => RegisterProvider()),
+        ChangeNotifierProvider(create: (context) => CommentProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

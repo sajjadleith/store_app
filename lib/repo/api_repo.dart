@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:store/app_constant.dart';
 import 'package:store/model/book_model.dart';
+import 'package:store/model/comment_model.dart';
 import 'package:store/model/login_model.dart';
 import 'package:store/model/register_model.dart';
 
@@ -86,4 +87,25 @@ class ApiRepo {
       throw e.toString();
     }
   }
+  Future<List<CommentModel>> getCommentDatas(String id) async {
+  try {
+    final url = Uri.parse("${AppConstant.commentUrl}/$id");
+    final response = await http.get(url);
+
+    final decodedData = jsonDecode(response.body);
+
+    // If no data
+    if (decodedData['data'] == null) {
+      return [];
+    }
+
+    return (decodedData['data'] as List)
+        .map((data) => CommentModel.fromJson(data))
+        .toList();
+  } catch (e) {
+    print(e);
+    return [];
+  }
+}
+
 }
