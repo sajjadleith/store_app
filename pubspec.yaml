@@ -38,6 +38,7 @@ dependencies:
   http: ^1.6.0
   cached_network_image: ^3.4.1
   provider: ^6.1.5+1
+  flutter_layout_grid: ^2.0.8
 
 dev_dependencies:
   flutter_test:

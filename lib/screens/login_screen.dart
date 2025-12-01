@@ -17,10 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   final TextEditingController emailController = TextEditingController(
-    text: "user@example.com",
+    // text: "user@example.com",
   );
   final TextEditingController passwordController = TextEditingController(
-    text: "string",
+    // text: "string",
   );
   @override
   Widget build(BuildContext context) {

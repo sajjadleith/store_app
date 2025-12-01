@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class NavigationWidget extends StatelessWidget {
-  const NavigationWidget({
+  const NavigationWidget({super.key, 
     required this.label,
     required this.icon,
     required this.navIndex,

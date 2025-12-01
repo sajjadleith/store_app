@@ -7,4 +7,5 @@ class AppIcons {
   static const fav = "assets/icons/fav.svg";
   static const forwardArrow = "assets/icons/forward_arrow.svg";
   static const backArrow = "assets/icons/back_arrow.svg";
+  static const account = "assets/icons/account.svg";
 }

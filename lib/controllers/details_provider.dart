@@ -25,4 +25,12 @@ class DetailsProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
+  int _rating = 0;  // selected stars
+
+  int get rating => _rating;
+
+  void setRating(int value) {
+    _rating = value;
+    notifyListeners();
+  }
 }
