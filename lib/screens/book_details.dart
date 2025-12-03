@@ -33,12 +33,19 @@ class _BookDetailsState extends State<BookDetails> {
     context.read<CommentProvider>().fetchData(widget.id);
   }
 
+  TextEditingController addCommentController = TextEditingController();
+  @override
+  void dispose() {
+    addCommentController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color(0xffFBF5F4),
-        body: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Color(0xffFBF5F4),
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Consumer<DetailsProvider>(
             builder: (context, detailsProvider, child) {
               final rating = context.watch<DetailsProvider>().rating;
@@ -257,6 +264,7 @@ class _BookDetailsState extends State<BookDetails> {
                           width: double.infinity,
                           height: 50,
                           child: TextField(
+                            controller: addCommentController,
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: "Leave a comment",
@@ -266,7 +274,12 @@ class _BookDetailsState extends State<BookDetails> {
                               filled: true,
                               fillColor: Colors.white,
                               suffix: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.read<CommentProvider>().addComment(
+                                    addCommentController.text,
+                                    widget.id,
+                                  );
+                                },
                                 child: Text(
                                   "Post",
                                   style: TextStyle(

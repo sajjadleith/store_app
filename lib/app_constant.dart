@@ -3,5 +3,7 @@ class AppConstant {
   static const getAllProduct = "${baseUrl}Book/Get";
   static const loginUrl = "${baseUrl}Auth/Login";
   static const registerUrl = "${baseUrl}Auth/Register";
-  static const commentUrl = "${baseUrl}Comment/Get";
+  static const commentUrl = "${baseUrl}Comment/GetAll";
+  static const addCommentUrl = "${baseUrl}Comment/Add";
+  static const addRatingUrl = "${baseUrl}Rating/add";
 }

@@ -17,49 +17,45 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   final TextEditingController emailController = TextEditingController(
-    // text: "user@example.com",
+    text: "hassan@gmail.com",
   );
   final TextEditingController passwordController = TextEditingController(
-    // text: "string",
+    text: "hassan",
   );
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Login Page")),
-      body: Consumer<LoginProvider>(
-        builder: (context, loginProvider, child) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 10,
-                ),
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(label: Text("Enter Email")),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 10,
-                ),
-                child: TextField(
-                  controller: passwordController,
-                  decoration: InputDecoration(label: Text("Enter Password")),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 10,
-                ),
-                child:
-                    loginProvider.generalState.requestState ==
-                        RequestState.loading
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+            child: TextField(
+              controller: emailController,
+              decoration: InputDecoration(label: Text("Enter Email")),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+            child: TextField(
+              controller: passwordController,
+              decoration: InputDecoration(label: Text("Enter Password")),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+            child: Consumer<LoginProvider>(
+              builder: (context, prov, child) {
+                return prov.generalState.requestState == RequestState.loading
                     ? Center(child: CircularProgressIndicator())
                     : ElevatedButton(
                         onPressed: () {
@@ -70,11 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: Center(child: Text("Login")),
-                      ),
-              ),
-            ],
-          );
-        },
+                      );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -17,6 +17,7 @@ class LoginProvider extends ChangeNotifier {
   ) async {
     try {
       generalState = GeneralState(requestState: RequestState.loading);
+      notifyListeners();
 
       final data = await repo.login(
         LoginModel(email: emailController, password: passwordController),

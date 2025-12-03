@@ -4,7 +4,7 @@ import 'package:store/controllers/book_provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/login_provider.dart';
 import 'package:store/controllers/register_provider.dart';
-import 'package:store/screens/custom_navbar.dart';
+import 'package:store/core/services/shared_pref_service.dart';
 import 'package:store/screens/dummy_screen.dart';
 import 'package:store/screens/home_screen.dart';
 import 'package:store/screens/register_screen.dart';
@@ -12,7 +12,9 @@ import 'package:store/screens/register_screen.dart';
 import 'controllers/details_provider.dart';
 import 'core/app_constains.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SharedPrefServcie.init();
   runApp(MyApp());
 }
 
