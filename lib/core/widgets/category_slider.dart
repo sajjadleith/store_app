@@ -39,7 +39,7 @@ class _CategorySliderState extends State<CategorySlider> {
         itemBuilder: (context, index) {
           return Material(
             color: categories[index]["status"] == true
-                ? Colors.green
+                ? AppConstain.primaryColor
                 : Colors.white,
             borderRadius: BorderRadius.circular(10),
             child: InkWell(
@@ -49,7 +49,7 @@ class _CategorySliderState extends State<CategorySlider> {
                 padding: EdgeInsets.only(left: 8, right: 8),
                 decoration: BoxDecoration(
                   color: categories[index]["status"] == true
-                      ? Colors.green
+                      ? AppConstain.primaryColor
                       : Colors.white,
                   border: categories[index]["status"] == true
                       ? null

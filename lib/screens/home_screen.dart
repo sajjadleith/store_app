@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store/core/app_constains.dart';
 
 import '../core/widgets/category_slider.dart';
 import '../core/widgets/slider_widget.dart';
@@ -45,7 +46,7 @@ class _HomeState extends State<HomeScreen> {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          color: Colors.green,
+                          color: AppConstain.primaryColor,
                         ),
                       ),
                     ),
