@@ -3,8 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:store/controllers/book_provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/login_provider.dart';
+import 'package:store/controllers/rating_provider.dart';
 import 'package:store/controllers/register_provider.dart';
 import 'package:store/core/services/shared_pref_service.dart';
+import 'package:store/screens/custom_navbar.dart';
 import 'package:store/screens/dummy_screen.dart';
 import 'package:store/screens/home_screen.dart';
 import 'package:store/screens/register_screen.dart';
@@ -45,6 +47,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => RegisterProvider()),
         ChangeNotifierProvider(create: (context) => CommentProvider()),
+        ChangeNotifierProvider(create: (context) => RatingProvider()),
+
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -54,14 +58,14 @@ class _MyAppState extends State<MyApp> {
           fontFamily: AppConstain.appFontFamily,
         ),
         // home: Navbarcomponents(),
-        // home: Scaffold(
-        //   body: screens[currentIndex],
-        //   bottomNavigationBar: CustomNavbar(
-        //     currentIndex: currentIndex,
-        //     onChange: onChange,
-        //   ),
-        // ),
-        home: RegisterScreen(),
+        home: Scaffold(
+          body: screens[currentIndex],
+          bottomNavigationBar: CustomNavbar(
+            currentIndex: currentIndex,
+            onChange: onChange,
+          ),
+        ),
+        // home: RegisterScreen(),
       ),
     );
   }

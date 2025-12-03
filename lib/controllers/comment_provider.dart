@@ -29,7 +29,10 @@ class CommentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+bool isLoadingComment = false;
   void addComment(String content, String bookId) async {
+    isLoadingComment = true;
+    notifyListeners();
     try {
       addCommentState = GeneralState(requestState: RequestState.loading);
       final comment = await repo.postComment(
@@ -46,6 +49,9 @@ class CommentProvider extends ChangeNotifier {
         requestState: RequestState.success,
         data: list,
       );
+      if(RequestState.success == addCommentState.requestState){
+        isLoadingComment = false;
+      }
       notifyListeners();
     } catch (e) {
       addCommentState = GeneralState(

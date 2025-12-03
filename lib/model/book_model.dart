@@ -12,7 +12,7 @@ class BookModel {
   final String autherName;
   final String publishedAt;
   final int pageNumbers;
-  final num totalRatings;
+  num totalRatings;
   final List<CategoriesModel> categories;
   final List<CommentModel> comments;
 

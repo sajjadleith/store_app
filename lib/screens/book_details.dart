@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/details_provider.dart';
+import 'package:store/controllers/rating_provider.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';
 import 'package:store/core/widgets/navigate_back_widget.dart';
 import 'package:store/model/book_model.dart';
 import 'package:store/model/comment_model.dart';
+import 'package:store/repo/api_repo.dart';
 
 class BookDetails extends StatefulWidget {
   const BookDetails({
@@ -39,9 +42,17 @@ class _BookDetailsState extends State<BookDetails> {
     addCommentController.dispose();
     super.dispose();
   }
+String formatCustomDate(String dateString) {
+   final date = DateTime.parse(dateString);
+  final day = intl.DateFormat('d').format(date);          // 12
+  final month = intl.DateFormat('MMMM').format(date);     // March
+  final year = intl.DateFormat('yy').format(date);        // 20
 
+  return "$day $month, $year";
+}
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Color(0xffFBF5F4),
       body: SafeArea(
@@ -244,10 +255,16 @@ class _BookDetailsState extends State<BookDetails> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(widget.maxStar, (index) {
                             return GestureDetector(
-                              onTap: () {
-                                context.read<DetailsProvider>().setRating(
+                              onTap: () async{
+                                 context.read<DetailsProvider>().setRating(
                                   index + 1,
                                 );
+                                data.totalRatings = index + 1;
+                                await Provider.of<RatingProvider>(context, listen: false).postRate(
+                            rate: index + 1,
+                            bookId: widget.id,
+                          );
+                          Provider.of<DetailsProvider>(context, listen: false).fetchData(widget.id);
                               },
                               child: Icon(
                                 index < rating ? Icons.star : Icons.star_border,
@@ -273,12 +290,14 @@ class _BookDetailsState extends State<BookDetails> {
                               ),
                               filled: true,
                               fillColor: Colors.white,
-                              suffix: TextButton(
+                              suffix: Consumer<CommentProvider>(builder: (context, value, child) {
+                                return value.isLoadingComment ? CircularProgressIndicator() : TextButton(
                                 onPressed: () {
-                                  context.read<CommentProvider>().addComment(
+                                  value.addComment(
                                     addCommentController.text,
                                     widget.id,
                                   );
+                                  addCommentController.clear();
                                 },
                                 child: Text(
                                   "Post",
@@ -287,7 +306,8 @@ class _BookDetailsState extends State<BookDetails> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ),
+                              );
+                              },)
                             ),
                           ),
                         ),
@@ -313,6 +333,7 @@ class _BookDetailsState extends State<BookDetails> {
 
                                 return ListView.separated(
                                   shrinkWrap: true,
+                                  reverse: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: comments.length,
                                   separatorBuilder: (_, __) =>
@@ -331,18 +352,20 @@ class _BookDetailsState extends State<BookDetails> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "User: ${c.user.userName}",
+                                            "by ${c.user.userName} . ${formatCustomDate(c.user.createdAt.toString())}",
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w600,
+                                              color: Color(0xff474A57)
                                             ),
                                           ),
                                           SizedBox(height: 8),
                                           Text(
                                             c.content,
                                             style: TextStyle(
-                                              fontSize: 14,
-                                              color: Colors.grey[800],
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
                                             ),
                                           ),
                                         ],

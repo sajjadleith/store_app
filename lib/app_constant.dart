@@ -5,5 +5,5 @@ class AppConstant {
   static const registerUrl = "${baseUrl}Auth/Register";
   static const commentUrl = "${baseUrl}Comment/GetAll";
   static const addCommentUrl = "${baseUrl}Comment/Add";
-  static const addRatingUrl = "${baseUrl}Rating/add";
+  static const addRatingUrl = "${baseUrl}Rating/add/";
 }

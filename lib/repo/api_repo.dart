@@ -126,18 +126,21 @@ class ApiRepo {
       throw e.toString();
     }
   }
-  // Future<RatingModel> postRate(RatingModel param) async {
-  //   try{
-  //     final url = Uri.parse(AppConstant.addRatingUrl/${param.bookId});
-  //     final encodedData = jsonEncode(param.toJson());
-  //     final header = {
-  //       "Content-Type": "application/json",
-  //       "Authorization":
-  //       "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
-  //     };
-  //     final respones = await http.post(url, body: encodedData, headers: header);
-  //     final data = jsonDecode(respones.body);
+//   postRate({required rate, bookId}) async {
+//     try{
+//       final url = Uri.parse("${AppConstant.addRatingUrl}$bookId");
+//       final encodedData = jsonEncode( {"rate": rate});
+//       final header = {
+//         "Content-Type": "application/json",
+//         "Authorization":
+//         "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
+//       };
+//       final respones = await http.post(url, body: encodedData, headers: header);
+//       final data = jsonDecode(respones.body);
 
-  //   }
-  // }
+//     } catch (e) {
+//       print("error in repo = ${e.toString()}");
+//       throw e.toString();
+//   } 
+// }
 }
