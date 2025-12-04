@@ -6,4 +6,5 @@ class AppConstant {
   static const commentUrl = "${baseUrl}Comment/GetAll";
   static const addCommentUrl = "${baseUrl}Comment/Add";
   static const addRatingUrl = "${baseUrl}Rating/add/";
+  static const getAllCategories = "${baseUrl}Category/Get";
 }

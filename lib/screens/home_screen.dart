@@ -21,7 +21,7 @@ class _HomeState extends State<HomeScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: CustomAppbarWidget()),
+            SliverToBoxAdapter(child: CustomAppbarWidget(title: "Home")),
             SliverToBoxAdapter(child: TextFieldWidget()),
 
             SliverToBoxAdapter(child: SliderWidget()),
@@ -32,13 +32,7 @@ class _HomeState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      "Categories",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                    Text("Categories", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700)),
                     TextButton(
                       onPressed: () {},
                       child: Text(

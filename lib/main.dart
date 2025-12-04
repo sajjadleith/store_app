@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/book_provider.dart';
+import 'package:store/controllers/category_provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/login_provider.dart';
 import 'package:store/controllers/rating_provider.dart';
@@ -48,7 +49,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => RegisterProvider()),
         ChangeNotifierProvider(create: (context) => CommentProvider()),
         ChangeNotifierProvider(create: (context) => RatingProvider()),
-
+        ChangeNotifierProvider(create: (context) => CategoryProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -60,10 +61,7 @@ class _MyAppState extends State<MyApp> {
         // home: Navbarcomponents(),
         home: Scaffold(
           body: screens[currentIndex],
-          bottomNavigationBar: CustomNavbar(
-            currentIndex: currentIndex,
-            onChange: onChange,
-          ),
+          bottomNavigationBar: CustomNavbar(currentIndex: currentIndex, onChange: onChange),
         ),
         // home: RegisterScreen(),
       ),

@@ -1,19 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:store/core/enums/request_state.dart';
 import 'package:store/core/generale_state.dart';
-import 'package:store/model/book_model.dart';
 import 'package:store/repo/api_repo.dart';
 
-class BookProvider extends ChangeNotifier {
+class CategoryProvider extends ChangeNotifier {
   final ApiRepo repo = ApiRepo();
   GeneralState generalState = GeneralState();
-  List<BookModel> allBook = [];
-
-  void fetchData() async {
+  void getDataCategory() async {
     try {
       generalState = GeneralState(requestState: RequestState.loading);
-      final data = await repo.getData();
-      allBook = data;
+      final data = await repo.getCategoryData();
       if (data.isEmpty) {
         generalState = GeneralState(requestState: RequestState.empty);
         return;
@@ -26,17 +22,9 @@ class BookProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void filterByCategory(String categoryName) {
-    if (categoryName == "All") {
-      generalState = GeneralState(requestState: RequestState.success, data: allBook);
-    } else {
-      final filtered = allBook.where((book) {
-        return book.categories.any((cat) => cat.name == categoryName);
-      }).toList();
-
-      generalState = GeneralState(requestState: RequestState.success, data: filtered);
-    }
-
+  int selectedIndex = 0;
+  void selectCategor(int index) {
+    selectedIndex = index;
     notifyListeners();
   }
 }

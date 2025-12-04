@@ -14,12 +14,7 @@ import 'package:store/model/comment_model.dart';
 import 'package:store/repo/api_repo.dart';
 
 class BookDetails extends StatefulWidget {
-  const BookDetails({
-    super.key,
-    required this.id,
-    this.maxStar = 5,
-    this.size = 28,
-  });
+  const BookDetails({super.key, required this.id, this.maxStar = 5, this.size = 28});
   final String id;
   final int maxStar;
   final double size;
@@ -42,17 +37,18 @@ class _BookDetailsState extends State<BookDetails> {
     addCommentController.dispose();
     super.dispose();
   }
-String formatCustomDate(String dateString) {
-   final date = DateTime.parse(dateString);
-  final day = intl.DateFormat('d').format(date);          // 12
-  final month = intl.DateFormat('MMMM').format(date);     // March
-  final year = intl.DateFormat('yy').format(date);        // 20
 
-  return "$day $month, $year";
-}
+  String formatCustomDate(String dateString) {
+    final date = DateTime.parse(dateString);
+    final day = intl.DateFormat('d').format(date); // 12
+    final month = intl.DateFormat('MMMM').format(date); // March
+    final year = intl.DateFormat('yy').format(date); // 20
+
+    return "$day $month, $year";
+  }
+
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: Color(0xffFBF5F4),
       body: SafeArea(
@@ -66,10 +62,7 @@ String formatCustomDate(String dateString) {
                 case RequestState.success:
                   final BookModel data = detailsProvider.generalState.data;
                   return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 10,
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -142,11 +135,7 @@ String formatCustomDate(String dateString) {
                                 SizedBox(height: 20),
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                      size: 20,
-                                    ),
+                                    Icon(Icons.star, color: Colors.amber, size: 20),
                                     SizedBox(width: 5),
                                     Text(
                                       "(${data.totalRatings} ratings)",
@@ -212,9 +201,7 @@ String formatCustomDate(String dateString) {
                         SizedBox(height: 30),
                         InfoTable(
                           data: {
-                            "Categorys": data.categories
-                                .map((i) => i.name)
-                                .join(", "),
+                            "Categorys": data.categories.map((i) => i.name).join(", "),
                             "Auther Name": data.autherName,
                             "Published At": data.publishedAt,
                             "Page Numbers": "${data.pageNumbers} pages",
@@ -226,24 +213,15 @@ String formatCustomDate(String dateString) {
                             Text("Tags: "),
                             ...data.categories.map((cat) {
                               return Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 6,
-                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: Colors.black,
-                                    width: 2,
-                                  ),
+                                  border: Border.all(color: Colors.black, width: 2),
                                 ),
                                 child: Center(
                                   child: Text(
                                     cat.name,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                    ),
+                                    style: TextStyle(color: Colors.black, fontSize: 14),
                                   ),
                                 ),
                               );
@@ -255,22 +233,21 @@ String formatCustomDate(String dateString) {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(widget.maxStar, (index) {
                             return GestureDetector(
-                              onTap: () async{
-                                 context.read<DetailsProvider>().setRating(
-                                  index + 1,
-                                );
+                              onTap: () async {
+                                context.read<DetailsProvider>().setRating(index + 1);
                                 data.totalRatings = index + 1;
-                                await Provider.of<RatingProvider>(context, listen: false).postRate(
-                            rate: index + 1,
-                            bookId: widget.id,
-                          );
-                          Provider.of<DetailsProvider>(context, listen: false).fetchData(widget.id);
+                                await Provider.of<RatingProvider>(
+                                  context,
+                                  listen: false,
+                                ).postRate(rate: index + 1, bookId: widget.id);
+                                Provider.of<DetailsProvider>(
+                                  context,
+                                  listen: false,
+                                ).fetchData(widget.id);
                               },
                               child: Icon(
                                 index < rating ? Icons.star : Icons.star_border,
-                                color: index < rating
-                                    ? Colors.amber
-                                    : Colors.grey,
+                                color: index < rating ? Colors.amber : Colors.grey,
                                 size: widget.size,
                               ),
                             );
@@ -285,29 +262,28 @@ String formatCustomDate(String dateString) {
                             maxLines: 1,
                             decoration: InputDecoration(
                               hintText: "Leave a comment",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                               filled: true,
                               fillColor: Colors.white,
-                              suffix: Consumer<CommentProvider>(builder: (context, value, child) {
-                                return value.isLoadingComment ? CircularProgressIndicator() : TextButton(
-                                onPressed: () {
-                                  value.addComment(
-                                    addCommentController.text,
-                                    widget.id,
-                                  );
-                                  addCommentController.clear();
+                              suffix: Consumer<CommentProvider>(
+                                builder: (context, value, child) {
+                                  return value.isLoadingComment
+                                      ? CircularProgressIndicator()
+                                      : TextButton(
+                                          onPressed: () {
+                                            value.addComment(addCommentController.text, widget.id);
+                                            addCommentController.clear();
+                                          },
+                                          child: Text(
+                                            "Post",
+                                            style: TextStyle(
+                                              color: AppConstain.primaryColor,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        );
                                 },
-                                child: Text(
-                                  "Post",
-                                  style: TextStyle(
-                                    color: AppConstain.primaryColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              );
-                              },)
+                              ),
                             ),
                           ),
                         ),
@@ -316,9 +292,7 @@ String formatCustomDate(String dateString) {
                           builder: (context, commentProvider, child) {
                             switch (commentProvider.generalState.requestState) {
                               case RequestState.loading:
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
+                                return Center(child: CircularProgressIndicator());
 
                               case RequestState.success:
                                 final List<CommentModel> comments =
@@ -336,8 +310,7 @@ String formatCustomDate(String dateString) {
                                   reverse: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemCount: comments.length,
-                                  separatorBuilder: (_, __) =>
-                                      SizedBox(height: 10),
+                                  separatorBuilder: (_, __) => SizedBox(height: 10),
                                   itemBuilder: (context, index) {
                                     final c = comments[index];
 
@@ -348,15 +321,14 @@ String formatCustomDate(String dateString) {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             "by ${c.user.userName} . ${formatCustomDate(c.user.createdAt.toString())}",
                                             style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
-                                              color: Color(0xff474A57)
+                                              color: Color(0xff474A57),
                                             ),
                                           ),
                                           SizedBox(height: 8),
@@ -375,9 +347,7 @@ String formatCustomDate(String dateString) {
                                 );
 
                               case RequestState.error:
-                                return Text(
-                                  "Error: ${commentProvider.generalState.error}",
-                                );
+                                return Text("Error: ${commentProvider.generalState.error}");
 
                               case RequestState.empty:
                                 return SizedBox();
@@ -388,9 +358,7 @@ String formatCustomDate(String dateString) {
                     ),
                   );
                 case RequestState.error:
-                  return Center(
-                    child: Text("Error ${detailsProvider.generalState.error}"),
-                  );
+                  return Center(child: Text("Error ${detailsProvider.generalState.error}"));
                 case RequestState.empty:
                   return SizedBox();
               }
@@ -437,11 +405,7 @@ class InfoTable extends StatelessWidget {
           SizedBox(width: 10),
 
           // Divider EXACT like picture
-          Container(
-            width: 1.3,
-            height: (data.length * 34).toDouble(),
-            color: Colors.grey.shade600,
-          ),
+          Container(width: 1.3, height: (data.length * 34).toDouble(), color: Colors.grey.shade600),
 
           SizedBox(width: 15),
 
@@ -453,11 +417,7 @@ class InfoTable extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 child: Text(
                   value,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w600),
                   overflow: TextOverflow.ellipsis,
                 ),
               );

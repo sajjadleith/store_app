@@ -5,6 +5,7 @@ import 'package:store/app_constant.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/services/shared_pref_service.dart';
 import 'package:store/model/book_model.dart';
+import 'package:store/model/categories_model.dart';
 import 'package:store/model/comment_model.dart';
 import 'package:store/model/comment_param_model.dart';
 import 'package:store/model/login_model.dart';
@@ -126,21 +127,17 @@ class ApiRepo {
       throw e.toString();
     }
   }
-//   postRate({required rate, bookId}) async {
-//     try{
-//       final url = Uri.parse("${AppConstant.addRatingUrl}$bookId");
-//       final encodedData = jsonEncode( {"rate": rate});
-//       final header = {
-//         "Content-Type": "application/json",
-//         "Authorization":
-//         "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
-//       };
-//       final respones = await http.post(url, body: encodedData, headers: header);
-//       final data = jsonDecode(respones.body);
 
-//     } catch (e) {
-//       print("error in repo = ${e.toString()}");
-//       throw e.toString();
-//   } 
-// }
+  Future<List<CategoriesModel>> getCategoryData() async {
+    try {
+      final url = Uri.parse(AppConstant.getAllCategories);
+      final response = await http.get(url);
+      final decodedData = jsonDecode(response.body);
+      final data = (decodedData['data'] as List).map((dD) => CategoriesModel.fromJson(dD)).toList();
+      return data;
+    } catch (e) {
+      print("error $e");
+      throw e.toString();
+    }
+  }
 }
