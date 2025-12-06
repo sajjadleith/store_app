@@ -7,4 +7,8 @@ class AppConstant {
   static const addCommentUrl = "${baseUrl}Comment/Add";
   static const addRatingUrl = "${baseUrl}Rating/add/";
   static const getAllCategories = "${baseUrl}Category/Get";
+  static const baseUrl2 = "https://book-backend-65sn.onrender.com";
+
+  static const getCarouselData = "${baseUrl}Book/Carousel";
+  static const imagesBase = "https://book-backend-65sn.onrender.com/api";
 }

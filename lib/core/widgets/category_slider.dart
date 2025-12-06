@@ -15,20 +15,6 @@ class CategorySlider extends StatefulWidget {
 }
 
 class _CategorySliderState extends State<CategorySlider> {
-  List categories = [
-    {"name": "All", "status": true},
-    {
-      "name":
-          "SmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphonesSmartphones",
-      "status": false,
-    },
-    {"name": "Smartphones", "status": false},
-    {"name": "Smartphones", "status": false},
-    {"name": "Smartphones", "status": false},
-    {"name": "Smartphones", "status": false},
-    {"name": "Smartphones", "status": false},
-  ];
-
   @override
   void initState() {
     Future.microtask(() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:store/core/app_constains.dart';
+import 'package:store/screens/widgets/slider_widget.dart';
 
 import '../core/widgets/category_slider.dart';
 import '../core/widgets/slider_widget.dart';
@@ -22,9 +23,11 @@ class _HomeState extends State<HomeScreen> {
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(child: CustomAppbarWidget(title: "Home")),
-            SliverToBoxAdapter(child: TextFieldWidget()),
 
-            SliverToBoxAdapter(child: SliderWidget()),
+            // SliverToBoxAdapter(child: TextFieldWidget()),
+            SliverToBoxAdapter(child: SizedBox(height: 30)),
+            // SliverToBoxAdapter(child: SliderWidget()),
+            SliverToBoxAdapter(child: SliderWidget2()),
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

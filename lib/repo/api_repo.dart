@@ -5,6 +5,7 @@ import 'package:store/app_constant.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/services/shared_pref_service.dart';
 import 'package:store/model/book_model.dart';
+import 'package:store/model/carousel_model.dart';
 import 'package:store/model/categories_model.dart';
 import 'package:store/model/comment_model.dart';
 import 'package:store/model/comment_param_model.dart';
@@ -135,6 +136,23 @@ class ApiRepo {
       final decodedData = jsonDecode(response.body);
       final data = (decodedData['data'] as List).map((dD) => CategoriesModel.fromJson(dD)).toList();
       return data;
+    } catch (e) {
+      print("error $e");
+      throw e.toString();
+    }
+  }
+
+  Future<List<CarouselModel>?> getCarouselData() async {
+    try {
+      final url = Uri.parse(AppConstant.getCarouselData);
+      final response = await http.get(url);
+      final decodedData = jsonDecode(response.body);
+      final data = (decodedData['data'] as List).map((e) => CarouselModel.fromJson(e)).toList();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return data;
+      } else {
+        print(response.statusCode);
+      }
     } catch (e) {
       print("error $e");
       throw e.toString();
