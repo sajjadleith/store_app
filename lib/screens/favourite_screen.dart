@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store/screens/custom_appbar.dart';
 
 class FavouriteScreen extends StatefulWidget {
   FavouriteScreen({Key? key}) : super(key: key);
@@ -10,6 +11,12 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("Favourite Screen")));
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(children: [CustomAppbarWidget(title: 'Favourite')]),
+        ),
+      ),
+    );
   }
 }

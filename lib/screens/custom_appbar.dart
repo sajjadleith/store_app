@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:store/core/app_constains.dart';
 
 import '../core/app_icons.dart';
 
@@ -15,11 +16,19 @@ class CustomAppbarWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(title, style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
-          IconButton(
-            onPressed: () {},
-            icon: Badge.count(count: 99, child: SvgPicture.asset(AppIcons.cartIcon)),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 40,
+              color: AppConstain.primaryColor,
+            ),
           ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Badge.count(count: 99, child: SvgPicture.asset(AppIcons.cartIcon)),
+          // ),
+          SvgPicture.asset(AppIcons.account, width: 30),
         ],
       ),
     );
