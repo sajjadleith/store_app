@@ -10,6 +10,7 @@ import 'package:store/controllers/register_provider.dart';
 import 'package:store/core/services/shared_pref_service.dart';
 import 'package:store/screens/custom_navbar.dart';
 import 'package:store/screens/dummy_screen.dart';
+import 'package:store/screens/favourite_screen.dart';
 import 'package:store/screens/home_screen.dart';
 import 'package:store/screens/register_screen.dart';
 
@@ -32,7 +33,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
 
-  final List<Widget> screens = [HomeScreen(), DummyScreen()];
+  final List<Widget> screens = [HomeScreen(), DummyScreen(), FavouriteScreen()];
 
   onChange(int index) {
     setState(() {

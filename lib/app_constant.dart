@@ -11,4 +11,7 @@ class AppConstant {
 
   static const getCarouselData = "${baseUrl}Book/Carousel";
   static const imagesBase = "https://book-backend-65sn.onrender.com/api";
+
+  static const updateCommentUrl = "${baseUrl}Comment/Update/";
+  static const deleteCommentUrl = "${baseUrl}Comment/Delete/";
 }

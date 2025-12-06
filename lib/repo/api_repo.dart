@@ -158,4 +158,34 @@ class ApiRepo {
       throw e.toString();
     }
   }
+
+  Future<CommentModel> updateComment(String id, String content) async {
+    final url = Uri.parse("${AppConstant.updateCommentUrl}$id");
+
+    final header = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
+    };
+
+    final body = jsonEncode({"id": id, "content": content});
+
+    final response = await http.put(url, body: body, headers: header);
+
+    final decoded = jsonDecode(response.body);
+
+    return CommentModel.fromJson(decoded["data"]);
+  }
+
+  Future<bool> deleteComment(String commentId) async {
+    final url = Uri.parse("${AppConstant.deleteCommentUrl}$commentId");
+
+    final header = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
+    };
+
+    final response = await http.delete(url, headers: header);
+
+    return response.statusCode == 200 || response.statusCode == 201;
+  }
 }

@@ -8,10 +8,12 @@ import 'package:store/controllers/rating_provider.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';
+import 'package:store/core/widgets/custom_button_widget.dart';
 import 'package:store/core/widgets/navigate_back_widget.dart';
 import 'package:store/model/book_model.dart';
 import 'package:store/model/comment_model.dart';
 import 'package:store/repo/api_repo.dart';
+import 'package:store/screens/widgets/show_bottom_sheet_widget.dart';
 
 class BookDetails extends StatefulWidget {
   const BookDetails({super.key, required this.id, this.maxStar = 5, this.size = 28});
@@ -209,20 +211,24 @@ class _BookDetailsState extends State<BookDetails> {
                         ),
                         SizedBox(height: 20),
                         Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 5,
                           children: [
                             Text("Tags: "),
                             ...data.categories.map((cat) {
                               return Container(
+                                alignment: Alignment.center,
+                                width: 80,
+                                height: 50,
                                 padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
                                   border: Border.all(color: Colors.black, width: 2),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    cat.name,
-                                    style: TextStyle(color: Colors.black, fontSize: 14),
-                                  ),
+                                child: Text(
+                                  cat.name,
+                                  style: TextStyle(color: Colors.black, fontSize: 14),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               );
                             }),
@@ -304,7 +310,7 @@ class _BookDetailsState extends State<BookDetails> {
                                     style: TextStyle(color: Colors.grey),
                                   );
                                 }
-
+                                // Comment List
                                 return ListView.separated(
                                   shrinkWrap: true,
                                   reverse: true,
@@ -320,25 +326,39 @@ class _BookDetailsState extends State<BookDetails> {
                                         color: Color(0xffFFE8E8),
                                         borderRadius: BorderRadius.circular(12),
                                       ),
-                                      child: Column(
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            "by ${c.user.userName} . ${formatCustomDate(c.user.createdAt.toString())}",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xff474A57),
-                                            ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                "by ${c.user.userName} . ${formatCustomDate(c.user.createdAt.toString())}",
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xff474A57),
+                                                ),
+                                              ),
+                                              SizedBox(height: 8),
+                                              Text(
+                                                c.content,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          SizedBox(height: 8),
-                                          Text(
-                                            c.content,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
+                                          IconButton(
+                                            onPressed: () {
+                                              ShowBottomSheetWidget(
+                                                commentId: c.id,
+                                              ).showBottomSheet(context);
+                                            },
+                                            icon: Icon(Icons.edit),
                                           ),
                                         ],
                                       ),
@@ -365,6 +385,33 @@ class _BookDetailsState extends State<BookDetails> {
             },
           ),
         ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(),
+          SizedBox(
+            width: 250,
+            child: CustomButtonWidget(title: "Reserved", onPressed: () {}),
+          ),
+          Material(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.black,
+            child: InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(12),
+              splashColor: AppConstain.primaryColor.withOpacity(0.3),
+              highlightColor: Colors.white.withOpacity(0.1),
+              child: Container(
+                width: 50,
+                height: 50,
+                alignment: Alignment.center,
+                child: Icon(Icons.favorite, color: AppConstain.primaryColor, size: 20),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
