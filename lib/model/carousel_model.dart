@@ -16,13 +16,18 @@ class CarouselModel {
     required this.totalRatings,
   });
   factory CarouselModel.fromJson(Map<String, dynamic> json) {
+    final rawImage = json['image'] ?? "";
+
+    final fullImageUrl = rawImage.startsWith("http")
+        ? rawImage
+        : "${AppConstant.imagesBase}$rawImage";
+
     return CarouselModel(
-      // image: "${AppConstant.imagesBase}${json['image']}",
-      image: "https://book-backend-65sn.onrender.com${json['image']}",
-      title: json['title'],
-      autherName: json['autherName'],
-      publishedAt: json['publishedAt'],
-      totalRatings: json["totalRatings"],
+      image: fullImageUrl,
+      title: json['title'] ?? "",
+      autherName: json['autherName'] ?? "",
+      publishedAt: json['publishedAt'] ?? "",
+      totalRatings: json["totalRatings"] ?? 0,
     );
   }
 }

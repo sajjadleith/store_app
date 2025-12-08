@@ -9,6 +9,7 @@ import 'package:store/model/carousel_model.dart';
 import 'package:store/model/categories_model.dart';
 import 'package:store/model/comment_model.dart';
 import 'package:store/model/comment_param_model.dart';
+import 'package:store/model/favourit_model.dart';
 import 'package:store/model/login_model.dart';
 import 'package:store/model/rating_model.dart';
 import 'package:store/model/register_model.dart';
@@ -142,20 +143,31 @@ class ApiRepo {
     }
   }
 
-  Future<List<CarouselModel>?> getCarouselData() async {
+  Future<List<CarouselModel>> getCarouselData() async {
     try {
       final url = Uri.parse(AppConstant.getCarouselData);
-      final response = await http.get(url);
+
+      final token = SharedPrefServcie.getData("token");
+      print("CAROUSEL TOKEN => $token");
+
+      final response = await http.get(
+        url,
+        headers: {"Authorization": "Bearer $token", "accept": "*/*"},
+      );
+
       final decodedData = jsonDecode(response.body);
-      final data = (decodedData['data'] as List).map((e) => CarouselModel.fromJson(e)).toList();
+
       if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = (decodedData['data'] as List).map((e) => CarouselModel.fromJson(e)).toList();
         return data;
       } else {
-        print(response.statusCode);
+        print("CAROUSEL STATUS CODE => ${response.statusCode}");
+        print("CAROUSEL BODY => ${response.body}");
+        return [];
       }
     } catch (e) {
-      print("error $e");
-      throw e.toString();
+      print("CAROUSEL ERROR => $e");
+      return [];
     }
   }
 
@@ -185,6 +197,41 @@ class ApiRepo {
     };
 
     final response = await http.delete(url, headers: header);
+
+    return response.statusCode == 200 || response.statusCode == 201;
+  }
+
+  Future<List<FavouriteModel>> getFavourites() async {
+    final token = SharedPrefServcie.getData(AppConstain.token);
+
+    print("FAV TOKEN => $token");
+
+    final response = await http.get(
+      Uri.parse(AppConstant.getAllFavouriteUrl),
+      headers: {"Authorization": "Bearer $token", "accept": "*/*"},
+    );
+
+    print("FAV STATUS => ${response.statusCode}");
+    print("FAV BODY => ${response.body}");
+
+    final decoded = jsonDecode(response.body);
+
+    if (decoded['data'] == null) {
+      return [];
+    }
+
+    return (decoded['data'] as List).map((e) => FavouriteModel.fromJson(e)).toList();
+  }
+
+  Future<bool> addToFavourite(String bookId) async {
+    final url = Uri.parse("${AppConstant.baseUrl}Favorite/Add/$bookId");
+
+    final header = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
+    };
+
+    final response = await http.post(url, headers: header);
 
     return response.statusCode == 200 || response.statusCode == 201;
   }

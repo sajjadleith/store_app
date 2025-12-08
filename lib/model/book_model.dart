@@ -1,3 +1,4 @@
+import 'package:store/app_constant.dart';
 import 'package:store/model/categories_model.dart';
 import 'package:store/model/comment_model.dart';
 import 'package:store/model/user_model.dart';
@@ -30,21 +31,34 @@ class BookModel {
     required this.categories,
     required this.comments,
   });
+
   factory BookModel.fromJson(Map<String, dynamic> json) {
+    final rawImage = json['image'] ?? "";
+
+    String fullImageUrl;
+
+    if (rawImage.startsWith("http")) {
+      fullImageUrl = rawImage;
+    } else if (rawImage.startsWith("/")) {
+      fullImageUrl = "${AppConstant.imagesBase}$rawImage";
+    } else {
+      fullImageUrl = "${AppConstant.imagesBase}/uploads/books/default1.jpg";
+    }
+
+    print("FINAL BOOK IMAGE => $fullImageUrl");
+
     return BookModel(
       id: json['id'],
       userId: json['userId'],
       user: UserModel.fromJson(json['user']),
       title: json['title'],
       description: json['description'],
-      image: json['image'],
+      image: fullImageUrl,
       autherName: json['autherName'],
       publishedAt: json['publishedAt'],
       pageNumbers: json['pageNumbers'],
       totalRatings: json['totalRatings'],
-      categories: (json['categories'] as List)
-          .map((cat) => CategoriesModel.fromJson(cat))
-          .toList(),
+      categories: (json['categories'] as List).map((cat) => CategoriesModel.fromJson(cat)).toList(),
       comments: (json['comments'] as List)
           .map((comment) => CommentModel.fromJson(comment))
           .toList(),

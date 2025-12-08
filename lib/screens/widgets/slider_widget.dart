@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:store/app_constant.dart';
 import 'package:store/controllers/carousel_provider.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/enums/request_state.dart';
@@ -22,6 +23,7 @@ class _SliderWidget2State extends State<SliderWidget2> {
     context.read<CarouselProvider>().providedData();
     super.initState();
   }
+
   String formatCustomDate(String dateString) {
     final date = DateTime.parse(dateString);
     final day = intl.DateFormat('d').format(date); // 12
@@ -35,20 +37,30 @@ class _SliderWidget2State extends State<SliderWidget2> {
   Widget build(BuildContext context) {
     return Consumer<CarouselProvider>(
       builder: (context, carouselProvider, child) {
-        final dataText = carouselProvider.generalState.data![activeIndex];
+        // final dataText = carouselProvider.generalState.data![activeIndex];
         switch (carouselProvider.generalState.requestState) {
           case RequestState.loading:
             return Center(child: CircularProgressIndicator());
           case RequestState.success:
+            final data = carouselProvider.generalState.data!;
+
+            if (data.isEmpty) {
+              return const Center(child: Text("No carousel items"));
+            }
+
+            if (activeIndex >= data.length) {
+              activeIndex = 0;
+            }
+
+            final dataText = data[activeIndex];
+
             return Column(
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
                   width: double.infinity,
                   height: 120,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,8 +72,7 @@ class _SliderWidget2State extends State<SliderWidget2> {
                           child: CarouselSlider.builder(
                             itemCount: carouselProvider.generalState.data!.length,
                             itemBuilder: (context, index, realIndex) {
-                              final data =
-                                  carouselProvider.generalState.data![index];
+                              final data = carouselProvider.generalState.data![index];
                               return Image.network(
                                 data.image,
                                 fit: BoxFit.cover,
@@ -80,7 +91,7 @@ class _SliderWidget2State extends State<SliderWidget2> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(width: 10),
                       Expanded(
                         flex: 2,
                         child: Column(

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:store/controllers/favourite_provider.dart';
+import 'package:store/controllers/search_provider.dart';
+import 'package:store/core/app_constains.dart';
 import 'package:store/core/enums/request_state.dart';
 import 'package:store/screens/custom_appbar.dart';
 
-class FavouriteScreen extends StatefulWidget {
-  const FavouriteScreen({Key? key}) : super(key: key);
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  State<FavouriteScreen> createState() => _FavouriteScreenState();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _FavouriteScreenState extends State<FavouriteScreen> {
+class _SearchScreenState extends State<SearchScreen> {
+  final TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    context.read<FavouriteProvider>().fetchFavourites();
+    context.read<SearchProvider>().fetchBooks();
   }
 
   @override
@@ -25,31 +28,64 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            CustomAppbarWidget(title: 'Favourite'),
+            CustomAppbarWidget(title: "Search"),
 
-            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      onChanged: (value) {
+                        context.read<SearchProvider>().search(value);
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Book, ISBN, Author, Publisher...",
+                        filled: true,
+                        fillColor: Colors.grey.shade300,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: AppConstain.primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(Icons.search, color: Colors.white),
+                  ),
+                ],
+              ),
+            ),
 
             Expanded(
-              child: Consumer<FavouriteProvider>(
-                builder: (context, favProvider, child) {
-                  switch (favProvider.generalState.requestState) {
+              child: Consumer<SearchProvider>(
+                builder: (context, provider, child) {
+                  switch (provider.generalState.requestState) {
                     case RequestState.loading:
                       return const Center(child: CircularProgressIndicator());
 
                     case RequestState.error:
-                      return Center(child: Text("Error: ${favProvider.generalState.error}"));
+                      return Center(child: Text(provider.generalState.error));
 
                     case RequestState.success:
-                      final favourites = favProvider.generalState.data!;
+                      final data = provider.generalState.data!;
 
-                      if (favourites.isEmpty) {
-                        return const Center(child: Text("No favourites yet ❤️"));
+                      if (data.isEmpty) {
+                        return const Center(child: Text("No result found"));
                       }
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: GridView.builder(
-                          itemCount: favourites.length,
+                          itemCount: data.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
                             mainAxisSpacing: 14,
@@ -57,38 +93,30 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                             childAspectRatio: 0.55,
                           ),
                           itemBuilder: (context, index) {
-                            final fav = favourites[index];
+                            final book = data[index];
 
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                // Image
                                 Expanded(
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(16),
                                     child: Image.network(
-                                      fav.book.image,
+                                      book.image,
                                       width: double.infinity,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),
-
                                 const SizedBox(height: 8),
-
-                                // Title
                                 Text(
-                                  fav.book.title,
+                                  book.title,
                                   style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-
-                                const SizedBox(height: 2),
-
-                                // Author
                                 Text(
-                                  fav.book.autherName,
+                                  book.autherName,
                                   style: TextStyle(fontSize: 11, color: Colors.grey.shade700),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

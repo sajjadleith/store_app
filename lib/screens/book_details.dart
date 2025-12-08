@@ -4,6 +4,7 @@ import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/details_provider.dart';
+import 'package:store/controllers/favourite_provider.dart';
 import 'package:store/controllers/rating_provider.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/app_icons.dart';
@@ -96,10 +97,10 @@ class _BookDetailsState extends State<BookDetails> {
                                 decoration: BoxDecoration(
                                   color: AppConstain.secondaryColor,
                                   borderRadius: BorderRadius.circular(12),
-                                  // image: DecorationImage(
-                                  //   image: NetworkImage(data.image),
-                                  //   fit: BoxFit.cover,
-                                  // ),
+                                  image: DecorationImage(
+                                    image: NetworkImage(data.image),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
@@ -399,7 +400,16 @@ class _BookDetailsState extends State<BookDetails> {
             borderRadius: BorderRadius.circular(12),
             color: Colors.black,
             child: InkWell(
-              onTap: () {},
+              onTap: () async {
+                await context.read<FavouriteProvider>().addFavourite(widget.id);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Added to favourites ❤️"),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
               borderRadius: BorderRadius.circular(12),
               splashColor: AppConstain.primaryColor.withOpacity(0.3),
               highlightColor: Colors.white.withOpacity(0.1),

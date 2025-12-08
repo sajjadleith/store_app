@@ -4,15 +4,19 @@ import 'package:store/controllers/book_provider.dart';
 import 'package:store/controllers/carousel_provider.dart';
 import 'package:store/controllers/category_provider.dart';
 import 'package:store/controllers/comment_provider.dart';
+import 'package:store/controllers/favourite_provider.dart';
 import 'package:store/controllers/login_provider.dart';
 import 'package:store/controllers/rating_provider.dart';
 import 'package:store/controllers/register_provider.dart';
+import 'package:store/controllers/search_provider.dart';
 import 'package:store/core/services/shared_pref_service.dart';
 import 'package:store/screens/custom_navbar.dart';
 import 'package:store/screens/dummy_screen.dart';
 import 'package:store/screens/favourite_screen.dart';
 import 'package:store/screens/home_screen.dart';
+import 'package:store/screens/profile_screen.dart';
 import 'package:store/screens/register_screen.dart';
+import 'package:store/screens/search_screen.dart';
 
 import 'controllers/details_provider.dart';
 import 'core/app_constains.dart';
@@ -32,13 +36,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
+  String? token;
 
-  final List<Widget> screens = [HomeScreen(), DummyScreen(), FavouriteScreen()];
+  final List<Widget> screens = [HomeScreen(), SearchScreen(), FavouriteScreen(), ProfileScreen()];
+
+  void checkLogin() {
+    token = SharedPrefServcie.getData(AppConstain.token);
+    setState(() {});
+  }
 
   onChange(int index) {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    checkLogin();
+    super.initState();
   }
 
   @override
@@ -53,6 +69,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => RatingProvider()),
         ChangeNotifierProvider(create: (context) => CategoryProvider()),
         ChangeNotifierProvider(create: (context) => CarouselProvider()),
+        ChangeNotifierProvider(create: (context) => FavouriteProvider()),
+        ChangeNotifierProvider(create: (context) => SearchProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -62,10 +80,12 @@ class _MyAppState extends State<MyApp> {
           fontFamily: AppConstain.appFontFamily,
         ),
         // home: Navbarcomponents(),
-        home: Scaffold(
-          body: screens[currentIndex],
-          bottomNavigationBar: CustomNavbar(currentIndex: currentIndex, onChange: onChange),
-        ),
+        home: token == null
+            ? RegisterScreen()
+            : Scaffold(
+                body: screens[currentIndex],
+                bottomNavigationBar: CustomNavbar(currentIndex: currentIndex, onChange: onChange),
+              ),
         // home: RegisterScreen(),
       ),
     );
