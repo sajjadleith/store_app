@@ -56,334 +56,340 @@ class _BookDetailsState extends State<BookDetails> {
       backgroundColor: Color(0xffFBF5F4),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Consumer<DetailsProvider>(
-            builder: (context, detailsProvider, child) {
-              final rating = context.watch<DetailsProvider>().rating;
-              switch (detailsProvider.generalState.requestState) {
-                case RequestState.loading:
-                  return Center(child: CircularProgressIndicator());
-                case RequestState.success:
-                  final BookModel data = detailsProvider.generalState.data;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            NavigateBackWidget(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                            ),
-                            SvgPicture.asset(AppIcons.account, width: 30),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Row(
-                          spacing: 20,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(width: 5),
-                            Expanded(
-                              child: Container(
-                                width: 150,
-                                height: 220,
-                                padding: EdgeInsets.symmetric(horizontal: 22),
-                                decoration: BoxDecoration(
-                                  color: AppConstain.secondaryColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  image: DecorationImage(
-                                    image: NetworkImage(data.image),
-                                    fit: BoxFit.cover,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 120),
+            child: Consumer<DetailsProvider>(
+              builder: (context, detailsProvider, child) {
+                final rating = context.watch<DetailsProvider>().rating;
+                switch (detailsProvider.generalState.requestState) {
+                  case RequestState.loading:
+                    return Center(child: CircularProgressIndicator());
+                  case RequestState.success:
+                    final BookModel data = detailsProvider.generalState.data;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              NavigateBackWidget(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              SvgPicture.asset(AppIcons.account, width: 30),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            spacing: 20,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 5),
+                              Expanded(
+                                child: Container(
+                                  width: 150,
+                                  height: 220,
+                                  padding: EdgeInsets.symmetric(horizontal: 22),
+                                  decoration: BoxDecoration(
+                                    color: AppConstain.secondaryColor,
+                                    borderRadius: BorderRadius.circular(12),
+                                    image: DecorationImage(
+                                      image: NetworkImage(data.image),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    data.title.toString(),
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                SizedBox(
-                                  width: 200,
-                                  child: Text(
-                                    "by ${data.autherName}",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey[600],
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    Icon(Icons.star, color: Colors.amber, size: 20),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      "(${data.totalRatings} ratings)",
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width: 200,
+                                    child: Text(
+                                      data.title.toString(),
                                       style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
                                         color: Colors.black,
                                       ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 20),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Page Numbers: ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[800],
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      "${data.pageNumbers} pages",
+                                  ),
+                                  SizedBox(height: 10),
+                                  SizedBox(
+                                    width: 200,
+                                    child: Text(
+                                      "by ${data.autherName}",
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
-                                        color: Colors.black,
+                                        color: Colors.grey[600],
                                       ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
                                     ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Published At: ",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[800],
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.star, color: Colors.amber, size: 20),
+                                      SizedBox(width: 5),
+                                      Text(
+                                        "(${data.totalRatings} ratings)",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    SizedBox(
-                                      width: 100,
-                                      child: Text(
-                                        data.publishedAt,
+                                    ],
+                                  ),
+                                  SizedBox(height: 20),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Page Numbers: ",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                                      SizedBox(width: 10),
+                                      Text(
+                                        "${data.pageNumbers} pages",
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black,
                                         ),
-                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 30),
-                        InfoTable(
-                          data: {
-                            "Categorys": data.categories.map((i) => i.name).join(", "),
-                            "Auther Name": data.autherName,
-                            "Published At": data.publishedAt,
-                            "Page Numbers": "${data.pageNumbers} pages",
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        Wrap(
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          spacing: 5,
-                          children: [
-                            Text("Tags: "),
-                            ...data.categories.map((cat) {
-                              return Container(
-                                alignment: Alignment.center,
-                                width: 80,
-                                height: 50,
-                                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.black, width: 2),
-                                ),
-                                child: Text(
-                                  cat.name,
-                                  style: TextStyle(color: Colors.black, fontSize: 14),
-                                  overflow: TextOverflow.ellipsis,
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Published At: ",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[800],
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+                                      SizedBox(
+                                        width: 100,
+                                        child: Text(
+                                          data.publishedAt,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 30),
+                          InfoTable(
+                            data: {
+                              "Categorys": data.categories.map((i) => i.name).join(", "),
+                              "Auther Name": data.autherName,
+                              "Published At": data.publishedAt,
+                              "Page Numbers": "${data.pageNumbers} pages",
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            spacing: 5,
+                            children: [
+                              Text("Tags: "),
+                              ...data.categories.map((cat) {
+                                return Container(
+                                  alignment: Alignment.center,
+                                  width: 80,
+                                  height: 50,
+                                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(color: Colors.black, width: 2),
+                                  ),
+                                  child: Text(
+                                    cat.name,
+                                    style: TextStyle(color: Colors.black, fontSize: 14),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              }),
+                            ],
+                          ),
+                          SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(widget.maxStar, (index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  context.read<DetailsProvider>().setRating(index + 1);
+                                  data.totalRatings = index + 1;
+                                  await Provider.of<RatingProvider>(
+                                    context,
+                                    listen: false,
+                                  ).postRate(rate: index + 1, bookId: widget.id);
+                                  Provider.of<DetailsProvider>(
+                                    context,
+                                    listen: false,
+                                  ).fetchData(widget.id);
+                                },
+                                child: Icon(
+                                  index < rating ? Icons.star : Icons.star_border,
+                                  color: index < rating ? Colors.amber : Colors.grey,
+                                  size: widget.size,
                                 ),
                               );
                             }),
-                          ],
-                        ),
-                        SizedBox(height: 30),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(widget.maxStar, (index) {
-                            return GestureDetector(
-                              onTap: () async {
-                                context.read<DetailsProvider>().setRating(index + 1);
-                                data.totalRatings = index + 1;
-                                await Provider.of<RatingProvider>(
-                                  context,
-                                  listen: false,
-                                ).postRate(rate: index + 1, bookId: widget.id);
-                                Provider.of<DetailsProvider>(
-                                  context,
-                                  listen: false,
-                                ).fetchData(widget.id);
-                              },
-                              child: Icon(
-                                index < rating ? Icons.star : Icons.star_border,
-                                color: index < rating ? Colors.amber : Colors.grey,
-                                size: widget.size,
-                              ),
-                            );
-                          }),
-                        ),
-                        SizedBox(height: 30),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: TextField(
-                            controller: addCommentController,
-                            maxLines: 1,
-                            decoration: InputDecoration(
-                              hintText: "Leave a comment",
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                              filled: true,
-                              fillColor: Colors.white,
-                              suffix: Consumer<CommentProvider>(
-                                builder: (context, value, child) {
-                                  return value.isLoadingComment
-                                      ? CircularProgressIndicator()
-                                      : TextButton(
-                                          onPressed: () {
-                                            value.addComment(addCommentController.text, widget.id);
-                                            addCommentController.clear();
-                                          },
-                                          child: Text(
-                                            "Post",
-                                            style: TextStyle(
-                                              color: AppConstain.primaryColor,
-                                              fontWeight: FontWeight.w600,
+                          ),
+                          SizedBox(height: 30),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: TextField(
+                              controller: addCommentController,
+                              maxLines: 1,
+                              decoration: InputDecoration(
+                                hintText: "Leave a comment",
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                                filled: true,
+                                fillColor: Colors.white,
+                                suffix: Consumer<CommentProvider>(
+                                  builder: (context, value, child) {
+                                    return value.isLoadingComment
+                                        ? CircularProgressIndicator()
+                                        : TextButton(
+                                            onPressed: () {
+                                              value.addComment(
+                                                addCommentController.text,
+                                                widget.id,
+                                              );
+                                              addCommentController.clear();
+                                            },
+                                            child: Text(
+                                              "Post",
+                                              style: TextStyle(
+                                                color: AppConstain.primaryColor,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
-                                          ),
-                                        );
-                                },
+                                          );
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(height: 20),
-                        Consumer<CommentProvider>(
-                          builder: (context, commentProvider, child) {
-                            switch (commentProvider.generalState.requestState) {
-                              case RequestState.loading:
-                                return Center(child: CircularProgressIndicator());
+                          SizedBox(height: 20),
+                          Consumer<CommentProvider>(
+                            builder: (context, commentProvider, child) {
+                              switch (commentProvider.generalState.requestState) {
+                                case RequestState.loading:
+                                  return Center(child: CircularProgressIndicator());
 
-                              case RequestState.success:
-                                final List<CommentModel> comments =
-                                    commentProvider.generalState.data ?? [];
+                                case RequestState.success:
+                                  final List<CommentModel> comments =
+                                      commentProvider.generalState.data ?? [];
 
-                                if (comments.isEmpty) {
-                                  return Text(
-                                    "No comments yet",
-                                    style: TextStyle(color: Colors.grey),
-                                  );
-                                }
-                                // Comment List
-                                return ListView.separated(
-                                  shrinkWrap: true,
-                                  reverse: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: comments.length,
-                                  separatorBuilder: (_, __) => SizedBox(height: 10),
-                                  itemBuilder: (context, index) {
-                                    final c = comments[index];
-
-                                    return Container(
-                                      padding: EdgeInsets.all(16),
-                                      decoration: BoxDecoration(
-                                        color: Color(0xffFFE8E8),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "by ${c.user.userName} . ${formatCustomDate(c.user.createdAt.toString())}",
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(0xff474A57),
-                                                ),
-                                              ),
-                                              SizedBox(height: 8),
-                                              Text(
-                                                c.content,
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              ShowBottomSheetWidget(
-                                                commentId: c.id,
-                                              ).showBottomSheet(context);
-                                            },
-                                            icon: Icon(Icons.edit),
-                                          ),
-                                        ],
-                                      ),
+                                  if (comments.isEmpty) {
+                                    return Text(
+                                      "No comments yet",
+                                      style: TextStyle(color: Colors.grey),
                                     );
-                                  },
-                                );
+                                  }
+                                  // Comment List
+                                  return ListView.separated(
+                                    shrinkWrap: true,
+                                    reverse: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: comments.length,
+                                    separatorBuilder: (_, __) => SizedBox(height: 10),
+                                    itemBuilder: (context, index) {
+                                      final c = comments[index];
 
-                              case RequestState.error:
-                                return Text("Error: ${commentProvider.generalState.error}");
+                                      return Container(
+                                        padding: EdgeInsets.all(16),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xffFFE8E8),
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "by ${c.user.userName} . ${formatCustomDate(c.user.createdAt.toString())}",
+                                                  style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Color(0xff474A57),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 8),
+                                                Text(
+                                                  c.content,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                ShowBottomSheetWidget(
+                                                  commentId: c.id,
+                                                ).showBottomSheet(context);
+                                              },
+                                              icon: Icon(Icons.edit),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
 
-                              case RequestState.empty:
-                                return SizedBox();
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                case RequestState.error:
-                  return Center(child: Text("Error ${detailsProvider.generalState.error}"));
-                case RequestState.empty:
-                  return SizedBox();
-              }
-            },
+                                case RequestState.error:
+                                  return Text("Error: ${commentProvider.generalState.error}");
+
+                                case RequestState.empty:
+                                  return SizedBox();
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  case RequestState.error:
+                    return Center(child: Text("Error ${detailsProvider.generalState.error}"));
+                  case RequestState.empty:
+                    return SizedBox();
+                }
+              },
+            ),
           ),
         ),
       ),
