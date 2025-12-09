@@ -30,7 +30,23 @@ class _SliverGridWidgetState extends State<SliverGridWidget> {
 
           case RequestState.success:
             final List<BookModel> data = bookProvider.generalState.data;
-
+            if (data.isEmpty) {
+              return const SliverToBoxAdapter(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Center(
+                    child: Text(
+                      "No Books in this category 📚",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }
             return SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 22),
               sliver: SliverGrid(

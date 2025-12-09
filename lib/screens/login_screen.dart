@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:store/controllers/login_provider.dart';
 import 'package:store/core/app_icons.dart';
 import 'package:store/core/enums/request_state.dart';
+import 'package:store/screens/register_screen.dart';
 import 'package:store/screens/widgets/custom_button.dart';
 import 'package:store/screens/widgets/custom_text_form_field.dart';
 
@@ -37,21 +38,22 @@ class _LoginScreenState extends State<LoginScreen> {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 40),
+
                     const Text(
-                      "Login",
+                      "Welcome",
                       style: TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
                         color: Colors.black,
                       ),
                     ),
 
-                    const SizedBox(height: 48),
+                    const SizedBox(height: 6),
 
-                    /// ✅ Email
+                    const SizedBox(height: 50),
                     CustomTextFormField(
                       controller: emailController,
                       icon: const Icon(Icons.email),
@@ -59,9 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscure: false,
                     ),
 
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 16),
 
-                    /// ✅ Password
                     CustomTextFormField(
                       controller: passwordController,
                       icon: const Icon(Icons.lock),
@@ -69,12 +70,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscure: true,
                     ),
 
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 24),
 
-                    /// ✅ Login Button مرتبط بالـ Provider
                     loginProvider.generalState.requestState == RequestState.loading
                         ? const Center(child: CircularProgressIndicator())
                         : CustomButton(
+                            title: "Login",
                             onPressed: () {
                               context.read<LoginProvider>().login(
                                 emailController.text,
@@ -83,6 +84,41 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             },
                           ),
+
+                    const SizedBox(height: 20),
+
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Forget Password?",
+                        style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
+                      ),
+                    ),
+
+                    const SizedBox(height: 40),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("You are new? ", style: TextStyle(fontSize: 14)),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                            );
+                          },
+                          child: Text(
+                            "Create new",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xffE85C3A),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               );

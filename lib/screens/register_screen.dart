@@ -28,10 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Consumer<RegisterProvider>(
             builder: (context, registerProvider, child) {
               return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 22,
-                  vertical: 10,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,7 +40,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         radius: 44,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => LoginScreen()),
+                            );
                           },
                           borderRadius: BorderRadius.circular(44),
                           child: Container(
@@ -54,12 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               border: Border.all(color: Colors.black, width: 2),
                             ),
                             padding: EdgeInsets.all(8),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppIcons.backArrow,
-                                width: 15,
-                              ),
-                            ),
+                            child: Center(child: SvgPicture.asset(AppIcons.backArrow, width: 15)),
                           ),
                         ),
                       ),
@@ -94,10 +89,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       obscure: true,
                     ),
                     SizedBox(height: 10),
-                    registerProvider.generalState.requestState ==
-                            RequestState.loading
+                    registerProvider.generalState.requestState == RequestState.loading
                         ? Center(child: CircularProgressIndicator())
                         : CustomButton(
+                            title: "Register",
                             onPressed: () {
                               context.read<RegisterProvider>().register(
                                 userController.text,

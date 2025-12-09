@@ -10,6 +10,7 @@ class CarouselProvider extends ChangeNotifier {
   void providedData() async {
     try {
       generalState = GeneralState(requestState: RequestState.loading);
+      notifyListeners();
       final data = await repo.getCarouselData();
       generalState = GeneralState(requestState: RequestState.success, data: data);
     } catch (e) {

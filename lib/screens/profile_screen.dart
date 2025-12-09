@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/change_password_provider.dart';
+import 'package:store/core/app_constains.dart';
 import 'package:store/core/enums/request_state.dart';
+import 'package:store/core/services/shared_pref_service.dart';
 import 'package:store/core/widgets/custom_button_widget.dart';
 import 'package:store/screens/custom_appbar.dart';
 import 'package:store/screens/login_screen.dart';
@@ -101,7 +103,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               /// ✅ Sign Out Button
               CustomButtonWidget(
                 title: "Sign Out",
-                onPressed: () {
+                onPressed: () async {
+                  await SharedPrefServcie.removeData(AppConstain.token);
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => LoginScreen()),

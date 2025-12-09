@@ -5,8 +5,9 @@ import '../../core/app_constains.dart';
 import '../../core/app_icons.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.onPressed});
+  const CustomButton({super.key, required this.onPressed, required, required this.title});
   final VoidCallback onPressed;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +23,8 @@ class CustomButton extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Register",
-            style: TextStyle(
-              fontSize: 21,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
+            title,
+            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700, color: Colors.white),
           ),
           SizedBox(width: 10),
           SvgPicture.asset(AppIcons.forwardArrow),

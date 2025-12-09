@@ -19,4 +19,8 @@ class SharedPrefServcie {
     final dat = _prefs.getString(key);
     return dat;
   }
+
+  static Future<void> removeData(String key) async {
+    await _prefs.remove(key);
+  }
 }

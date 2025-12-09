@@ -6,7 +6,7 @@ class CarouselModel {
   final String title;
   final String autherName;
   final String publishedAt;
-  final int totalRatings;
+  final num totalRatings;
 
   CarouselModel({
     required this.image,

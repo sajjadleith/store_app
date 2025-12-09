@@ -15,6 +15,7 @@ import 'package:store/screens/custom_navbar.dart';
 import 'package:store/screens/dummy_screen.dart';
 import 'package:store/screens/favourite_screen.dart';
 import 'package:store/screens/home_screen.dart';
+import 'package:store/screens/login_screen.dart';
 import 'package:store/screens/profile_screen.dart';
 import 'package:store/screens/register_screen.dart';
 import 'package:store/screens/search_screen.dart';
@@ -83,7 +84,7 @@ class _MyAppState extends State<MyApp> {
         ),
         // home: Navbarcomponents(),
         home: token == null
-            ? RegisterScreen()
+            ? LoginScreen()
             : Scaffold(
                 body: screens[currentIndex],
                 bottomNavigationBar: CustomNavbar(currentIndex: currentIndex, onChange: onChange),

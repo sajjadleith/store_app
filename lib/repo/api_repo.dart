@@ -147,26 +147,29 @@ class ApiRepo {
     try {
       final url = Uri.parse(AppConstant.getCarouselData);
 
-      final token = SharedPrefServcie.getData("token");
-      print("CAROUSEL TOKEN => $token");
+      final token = SharedPrefServcie.getData(AppConstain.token);
+      print("✅ CAROUSEL TOKEN => $token");
 
       final response = await http.get(
         url,
         headers: {"Authorization": "Bearer $token", "accept": "*/*"},
       );
 
+      print("✅ CAROUSEL STATUS => ${response.statusCode}");
+      print("✅ CAROUSEL BODY => ${response.body}");
+
       final decodedData = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = (decodedData['data'] as List).map((e) => CarouselModel.fromJson(e)).toList();
+
+        print("✅ CAROUSEL DATA LENGTH => ${data.length}");
         return data;
       } else {
-        print("CAROUSEL STATUS CODE => ${response.statusCode}");
-        print("CAROUSEL BODY => ${response.body}");
         return [];
       }
     } catch (e) {
-      print("CAROUSEL ERROR => $e");
+      print("❌ CAROUSEL ERROR => $e");
       return [];
     }
   }
