@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:store/controllers/book_provider.dart';
 import 'package:store/controllers/carousel_provider.dart';
 import 'package:store/controllers/category_provider.dart';
+import 'package:store/controllers/change_password_provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/favourite_provider.dart';
 import 'package:store/controllers/login_provider.dart';
@@ -71,6 +72,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => CarouselProvider()),
         ChangeNotifierProvider(create: (context) => FavouriteProvider()),
         ChangeNotifierProvider(create: (context) => SearchProvider()),
+        ChangeNotifierProvider(create: (context) => ChangePasswordProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -235,4 +235,27 @@ class ApiRepo {
 
     return response.statusCode == 200 || response.statusCode == 201;
   }
+
+  Future<bool> updatePassword({required String oldPassword, required String newPassword}) async {
+    try {
+      final url = Uri.parse("${AppConstant.baseUrl}Profile/Password");
+
+      final header = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${SharedPrefServcie.getData(AppConstain.token)}",
+      };
+
+      final body = jsonEncode({"oldPassword": oldPassword, "newPassword": newPassword});
+
+      final response = await http.put(url, headers: header, body: body);
+
+      print("UPDATE PASS STATUS => ${response.statusCode}");
+      print("UPDATE PASS BODY => ${response.body}");
+
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      print("UPDATE PASS ERROR => $e");
+      return false;
+    }
+  }
 }
