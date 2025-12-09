@@ -443,13 +443,11 @@ class InfoTable extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Left column (titles)
+          // ✅ Left titles
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: data.keys.map((key) {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -467,24 +465,31 @@ class InfoTable extends StatelessWidget {
 
           SizedBox(width: 10),
 
-          // Divider EXACT like picture
+          // ✅ Divider
           Container(width: 1.3, height: (data.length * 34).toDouble(), color: Colors.grey.shade600),
 
           SizedBox(width: 15),
 
-          // Right column (values)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: data.values.map((value) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                child: Text(
-                  value,
-                  style: TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.w600),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
-            }).toList(),
+          // ✅ Right values (مهم جداً Expanded)
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: data.values.map((value) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              }).toList(),
+            ),
           ),
         ],
       ),
