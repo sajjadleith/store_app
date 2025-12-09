@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as _client;
 import 'package:store/app_constant.dart';
 import 'package:store/core/app_constains.dart';
 import 'package:store/core/services/shared_pref_service.dart';
@@ -43,53 +45,70 @@ class ApiRepo {
     }
   }
 
-  Future<String> login(LoginModel params) async {
+  Future<Map<String, dynamic>> login(LoginModel model) async {
+    final url = Uri.parse("${AppConstant.baseUrl}Auth/Login");
+
+    final response = await _client.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(model.toJson()),
+    );
+
+    debugPrint("LOGIN STATUS => ${response.statusCode}");
+    debugPrint("LOGIN BODY   => ${response.body}");
+
+    Map<String, dynamic>? decoded;
     try {
-      final url = Uri.parse(AppConstant.loginUrl);
-      final encodeData = jsonEncode({"email": params.email, "passwrod": params.password});
-      final response = await http.post(
-        url,
-        body: encodeData,
-        headers: {"Content-Type": "application/json"},
-      );
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        final de = jsonDecode(response.body);
-        print("token ${de['token']}");
-        SharedPrefServcie.setData(AppConstain.token, de['data']['token']);
-        return de['data']['token'];
-      } else {
-        print(response.statusCode);
-      }
-      return ":";
-    } catch (e) {
-      print("error $e");
-      throw e.toString();
+      decoded = jsonDecode(response.body) as Map<String, dynamic>;
+    } catch (_) {
+      decoded = null;
+    }
+
+    if (response.statusCode == 200) {
+      return decoded ?? {};
+    } else {
+      final serverMessage = decoded?['message']?.toString();
+      throw Exception(serverMessage ?? "Login failed (${response.statusCode})");
     }
   }
 
   Future<String> register(RegisterModel params) async {
     try {
       final url = Uri.parse(AppConstant.registerUrl);
+
       final encodedData = jsonEncode({
         "username": params.username,
         "email": params.email,
         "password": params.password,
       });
-      final resonse = await http.post(
+
+      final response = await http.post(
         url,
         body: encodedData,
         headers: {"Content-Type": "application/json"},
       );
-      if (resonse.statusCode == 200 || resonse.statusCode == 201) {
-        final dData = jsonDecode(resonse.body);
-        return dData["data"];
-      } else {
-        print(resonse.statusCode);
+
+      debugPrint("REGISTER STATUS => ${response.statusCode}");
+      debugPrint("REGISTER BODY   => ${response.body}");
+
+      Map<String, dynamic>? decoded;
+      try {
+        decoded = jsonDecode(response.body) as Map<String, dynamic>;
+      } catch (_) {
+        decoded = null;
       }
-      return ":";
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final dData = decoded ?? {};
+        return dData["data"]?.toString() ?? "Success";
+      } else {
+        final serverMessage = decoded?["message"]?.toString();
+
+        throw Exception(serverMessage ?? "Register failed (${response.statusCode})");
+      }
     } catch (e) {
-      print("error $e");
-      throw e.toString();
+      debugPrint("REGISTER ERROR => $e");
+      throw e;
     }
   }
 
