@@ -11,6 +11,7 @@ import 'package:store/model/comment_model.dart';
 import 'package:store/model/comment_param_model.dart';
 import 'package:store/model/favourit_model.dart';
 import 'package:store/model/login_model.dart';
+import 'package:store/model/profile_model.dart';
 import 'package:store/model/rating_model.dart';
 import 'package:store/model/register_model.dart';
 import 'package:store/screens/book_details.dart';
@@ -260,5 +261,18 @@ class ApiRepo {
       print("UPDATE PASS ERROR => $e");
       return false;
     }
+  }
+
+  Future<ProfileModel> getProfile() async {
+    final token = SharedPrefServcie.getData(AppConstain.token);
+
+    final response = await http.get(
+      Uri.parse("${AppConstant.baseUrl}Profile"),
+      headers: {"Authorization": "Bearer $token", "Accept": "application/json"},
+    );
+
+    final body = jsonDecode(response.body);
+
+    return ProfileModel.fromJson(body['data']);
   }
 }

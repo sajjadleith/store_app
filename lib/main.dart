@@ -7,6 +7,7 @@ import 'package:store/controllers/change_password_provider.dart';
 import 'package:store/controllers/comment_provider.dart';
 import 'package:store/controllers/favourite_provider.dart';
 import 'package:store/controllers/login_provider.dart';
+import 'package:store/controllers/profile_provider.dart';
 import 'package:store/controllers/rating_provider.dart';
 import 'package:store/controllers/register_provider.dart';
 import 'package:store/controllers/search_provider.dart';
@@ -74,6 +75,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => FavouriteProvider()),
         ChangeNotifierProvider(create: (context) => SearchProvider()),
         ChangeNotifierProvider(create: (context) => ChangePasswordProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
