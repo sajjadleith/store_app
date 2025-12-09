@@ -18,7 +18,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<SearchProvider>().fetchBooks();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<SearchProvider>().fetchBooks();
+    });
   }
 
   @override

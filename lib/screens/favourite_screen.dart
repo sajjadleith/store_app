@@ -15,7 +15,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<FavouriteProvider>().fetchFavourites();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<FavouriteProvider>().fetchFavourites();
+    });
   }
 
   @override
