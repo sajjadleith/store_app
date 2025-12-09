@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:store/controllers/favourite_provider.dart';
 import 'package:store/core/enums/request_state.dart';
+import 'package:store/screens/book_details.dart';
 import 'package:store/screens/custom_appbar.dart';
 
 class FavouriteScreen extends StatefulWidget {
@@ -61,41 +62,54 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           itemBuilder: (context, index) {
                             final fav = favourites[index];
 
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Image
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16),
-                                    child: Image.network(
-                                      fav.book.image,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BookDetails(id: fav.book.id),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Image
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Image.network(
+                                        fav.book.image,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
 
-                                const SizedBox(height: 8),
+                                  const SizedBox(height: 8),
 
-                                // Title
-                                Text(
-                                  fav.book.title,
-                                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
+                                  // Title
+                                  Text(
+                                    fav.book.title,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
 
-                                const SizedBox(height: 2),
+                                  const SizedBox(height: 2),
 
-                                // Author
-                                Text(
-                                  fav.book.autherName,
-                                  style: TextStyle(fontSize: 11, color: Colors.grey.shade700),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                                  // Author
+                                  Text(
+                                    fav.book.autherName,
+                                    style: TextStyle(fontSize: 11, color: Colors.grey.shade700),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         ),

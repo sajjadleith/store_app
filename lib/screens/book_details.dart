@@ -280,12 +280,22 @@ class _BookDetailsState extends State<BookDetails> {
                                         ? CircularProgressIndicator()
                                         : TextButton(
                                             onPressed: () {
-                                              value.addComment(
-                                                addCommentController.text,
-                                                widget.id,
-                                              );
+                                              final text = addCommentController.text.trim();
+
+                                              if (text.isEmpty) {
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Comment cannot be empty ❌"),
+                                                    duration: Duration(seconds: 2),
+                                                  ),
+                                                );
+                                                return;
+                                              }
+
+                                              value.addComment(text, widget.id);
                                               addCommentController.clear();
                                             },
+
                                             child: Text(
                                               "Post",
                                               style: TextStyle(
